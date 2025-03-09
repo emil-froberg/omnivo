@@ -1,0 +1,18 @@
+pyperclip==1.8.2
+pynput==1.7.6
+sounddevice==0.4.6
+numpy==1.24.3
+openai>=1.65.2
+pyautogui==0.9.54
+Pillow==10.0.0
+simpleaudio==1.0.4
+python-dotenv==1.0.0
+rich>=13.4.2  # Terminal formatting and styling
+
+# macOS specific dependencies
+pyobjc-core>=9.0 ; sys_platform == 'darwin'
+pyobjc-framework-Cocoa>=9.0 ; sys_platform == 'darwin'
+
+# Development tools (optional)
+black  # Code formatting
+flake8  # Linting 

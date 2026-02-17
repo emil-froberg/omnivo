@@ -6,6 +6,7 @@ openai>=1.65.2
 simpleaudio==1.0.4
 python-dotenv==1.0.0
 rich>=13.4.2  # Terminal formatting and styling
+pydub>=0.25.1
 
 # macOS specific dependencies
 pyobjc-core>=9.0 ; sys_platform == 'darwin'

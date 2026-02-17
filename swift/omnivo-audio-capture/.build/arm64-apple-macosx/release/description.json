@@ -1,0 +1,199 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.omnivo-audio-capture-arm64-apple-macosx14.0-release.module" : {
+      "executable" : "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "fileList" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/sources",
+      "importPath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/Sources/main.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "omnivo_audio_capture",
+      "moduleOutputPath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/Modules/omnivo_audio_capture.swiftmodule",
+      "objects" : [
+        "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/main.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx14.0",
+        "-O",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-module-cache-path",
+        "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "omnivo_audio_capture_main",
+        "-swift-version",
+        "5",
+        "-F",
+        "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+        "-sdk",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "omnivo_audio_capture"
+      ],
+      "outputFileMapPath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/main.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/Modules/omnivo_audio_capture.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/Sources/main.swift"
+      ],
+      "tempsPath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build",
+      "wholeModuleOptimization" : true
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "omnivo_audio_capture" : [
+      "/Library/Developer/CommandLineTools/usr/bin/swiftc",
+      "-module-name",
+      "omnivo_audio_capture",
+      "-package-name",
+      "omnivo_audio_capture",
+      "-whole-module-optimization",
+      "-num-threads",
+      "8",
+      "-c",
+      "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/Sources/main.swift",
+      "-I",
+      "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx14.0",
+      "-O",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-module-cache-path",
+      "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "omnivo_audio_capture_main",
+      "-swift-version",
+      "5",
+      "-F",
+      "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+      "-sdk",
+      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "omnivo_audio_capture",
+      "-driver-use-frontend-path",
+      "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "omnivo_audio_capture" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "writeCommands" : {
+    "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/Sources/main.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/sources"
+    },
+    "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo-audio-capture.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo_audio_capture.build/main.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo-audio-capture.product/Objects.LinkFileList"
+    },
+    "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Library/Developer/CommandLineTools/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/swift-version--1AB21518FC5DEDBE.txt"
+    }
+  }
+}

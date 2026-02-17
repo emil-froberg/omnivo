@@ -1,41 +1,40 @@
-from pynput import keyboard
+import time
+import threading
 import platform
+from pynput import keyboard
 from rich.console import Console
 
-# Use the same console instance
 console = Console()
 
-# Add macOS-specific imports for detecting Caps Lock state
-if platform.system() == 'Darwin':  # macOS
+if platform.system() == 'Darwin':
     from AppKit import NSEvent
+
+DOUBLE_TAP_WINDOW = 0.6  # seconds between Caps Lock presses to count as double-tap
+PROCESSING_DELAY = 0.4    # seconds to wait after Caps Lock OFF before processing dictation
+
 
 class KeyboardService:
     def __init__(self, app_controller):
-        """
-        Initialize the keyboard service.
-
-        Args:
-            app_controller: The main application controller
-        """
         self.app_controller = app_controller
         self.current_keys = set()
         self.listener = None
         self.caps_lock_active = False
 
-        # Check the initial Caps Lock state on startup
+        # Double-tap detection: track raw key press times (not state)
+        self._last_caps_press_time = 0
+        self._processing_timer = None
+
         if platform.system() == 'Darwin':
             self.caps_lock_active = self.is_caps_lock_on()
             caps_state = "[green]ON[/green]" if self.caps_lock_active else "[red]OFF[/red]"
             console.print(f"[dim]Initial Caps Lock state: {caps_state}[/dim]")
 
     def is_caps_lock_on(self):
-        """Check if Caps Lock is physically ON (macOS only)."""
         if platform.system() == 'Darwin':
             return NSEvent.modifierFlags() & 0x010000 != 0
         return False
 
     def start_listening(self):
-        """Start listening for keyboard events."""
         self.listener = keyboard.Listener(
             on_press=self.on_press,
             on_release=self.on_release
@@ -44,57 +43,89 @@ class KeyboardService:
         console.print("[dim]Keyboard listener started[/dim]")
 
     def stop_listening(self):
-        """Stop listening for keyboard events."""
         if self.listener:
             self.listener.stop()
             console.print("[dim]Keyboard listener stopped[/dim]")
 
-    def on_press(self, key):
-        """
-        Handle key press events.
+    def _cancel_processing_timer(self):
+        """Cancel any pending dictation processing timer."""
+        if self._processing_timer:
+            self._processing_timer.cancel()
+            self._processing_timer = None
 
-        Args:
-            key: The key that was pressed
-        """
+    def on_press(self, key):
         try:
-            # Add the key to the set of currently pressed keys
             self.current_keys.add(key)
 
-            # Handle Caps Lock for dictation control
             if key == keyboard.Key.caps_lock:
-                # Get the actual state of Caps Lock AFTER the key press
-                # There's a slight delay to ensure the OS has updated the state
-                import time
-                time.sleep(0.01)
-                actual_caps_lock_state = self.is_caps_lock_on()
+                now = time.time()
 
-                # Only start recording when Caps Lock is turned ON
-                if actual_caps_lock_state and not self.caps_lock_active:
+                # Check for double-tap FIRST (two raw presses within window)
+                if (now - self._last_caps_press_time) < DOUBLE_TAP_WINDOW:
+                    # Double-tap detected!
+                    self._last_caps_press_time = 0  # Reset to avoid triple-tap
+                    self._cancel_processing_timer()
+
+                    # Cancel any active dictation
+                    if self.app_controller.is_recording:
+                        self.app_controller.recorder.stop_recording()
+                        self.app_controller.is_recording = False
+
+                    # Sync state with actual hardware
+                    time.sleep(0.01)
+                    self.caps_lock_active = self.is_caps_lock_on()
+
+                    # Toggle meeting recording
+                    self._toggle_meeting_recording()
+                    return
+
+                # Not a double-tap — record this press time
+                self._last_caps_press_time = now
+
+                # Now check actual state for dictation
+                time.sleep(0.01)
+                actual_state = self.is_caps_lock_on()
+
+                # Caps Lock turned ON → start dictation
+                if actual_state and not self.caps_lock_active:
                     self.caps_lock_active = True
                     self.app_controller.start_recording()
 
-                # Only stop recording when Caps Lock is turned OFF
-                elif not actual_caps_lock_state and self.caps_lock_active:
+                # Caps Lock turned OFF → stop dictation, delay processing
+                elif not actual_state and self.caps_lock_active:
                     self.caps_lock_active = False
+
                     if self.app_controller.is_recording:
-                        self.app_controller.stop_recording_and_process()
+                        self.app_controller.recorder.stop_recording()
+
+                        self._processing_timer = threading.Timer(
+                            PROCESSING_DELAY,
+                            self._delayed_process_dictation,
+                        )
+                        self._processing_timer.start()
 
         except Exception as e:
             console.print(f"[bold red]Error on key press:[/bold red] {e}")
 
-    def on_release(self, key):
-        """
-        Handle key release events.
-
-        Args:
-            key: The key that was released
-        """
+    def _delayed_process_dictation(self):
+        """Process dictation after the double-tap window has passed."""
         try:
-            # Remove the key from the set of currently pressed keys
-            self.current_keys.discard(key)
+            wav_path = self.app_controller.recorder._last_audio_path
+            if wav_path:
+                self.app_controller._process_dictation(wav_path)
+        except Exception as e:
+            console.print(f"[bold red]Error processing dictation:[/bold red] {e}")
 
+    def _toggle_meeting_recording(self):
+        """Toggle meeting recording on/off."""
+        if self.app_controller.meeting_recorder.is_recording:
+            self.app_controller.stop_meeting_recording()
+        else:
+            self.app_controller.start_meeting_recording()
+
+    def on_release(self, key):
+        try:
+            self.current_keys.discard(key)
         except Exception as e:
             console.print(f"[bold red]Error on key release:[/bold red] {e}")
-
-        # Don't stop listener
         return True

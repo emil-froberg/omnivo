@@ -9,6 +9,7 @@ class AudioRecorder:
         self.is_recording = False
         self.recorded_frames = []
         self.stream = None
+        self._last_audio_path = None
     
     def audio_callback(self, indata, frames, time, status):
         """
@@ -71,6 +72,7 @@ class AudioRecorder:
         
         # Save audio to a temporary file
         audio_file_path = save_audio_to_file(self.recorded_frames)
+        self._last_audio_path = audio_file_path
         
         # Clear recorded frames to free memory
         self.recorded_frames = []

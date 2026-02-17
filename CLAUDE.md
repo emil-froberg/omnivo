@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Omnivo is a macOS voice assistant that uses Caps Lock as a push-to-talk trigger for dictation. It captures audio, transcribes via OpenAI Whisper, and pastes the result into the active app.
+Omnivo is a macOS voice assistant with two modes:
+1. **Push-to-talk dictation** — Caps Lock ON/OFF captures mic audio, transcribes via OpenAI, and pastes result
+2. **Meeting recording** — Double-tap Caps Lock captures system audio + mic via ScreenCaptureKit, transcribes, and saves `.md` to `~/notes/meetings/`
 
 ## Running the Application
 
@@ -12,7 +14,22 @@ Omnivo is a macOS voice assistant that uses Caps Lock as a push-to-talk trigger 
 python main.py
 ```
 
-Requires `OPENAI_API_KEY` in `.env` file (copy from `.env.example`). No build step. No test suite exists yet.
+Requires `OPENAI_API_KEY` in `.env` file (copy from `.env.example`).
+
+### First-time setup for meeting recording
+
+```bash
+./scripts/build-audio-capture.sh   # Build Swift audio capture binary
+```
+
+Requires Xcode Command Line Tools, ffmpeg (`brew install ffmpeg`), and macOS 14+.
+
+## Testing
+
+```bash
+pytest tests/ -v -k "not api and not e2e"   # Quick tests (no API calls)
+pytest tests/ -v                              # All tests (requires OPENAI_API_KEY)
+```
 
 ## Formatting and Linting
 
@@ -23,33 +40,52 @@ flake8 .         # Linting
 
 ## Architecture
 
-The app follows a pipeline: **keyboard input → audio recording → transcription → paste**.
+### Dictation Pipeline
+**keyboard input → audio recording → transcription → paste**
+
+### Meeting Recording Pipeline
+**double-tap Caps Lock → Swift helper (ScreenCaptureKit) → PCM to WAV → compress/chunk → transcribe → save .md**
 
 ### Core Pipeline (`core/`)
 - `recorder.py` — `AudioRecorder`: streams mic input via `sounddevice`, stores frames in memory, saves to temp WAV file
 - `transcriber.py` — `Transcriber`: sends WAV to Whisper API, cleans up temp file after
 - `processor.py` — `TextProcessor`: passthrough — returns the transcription as-is
 - `clipboard.py` — `ClipboardManager`: copies result to clipboard and simulates Cmd+V paste via `pynput`
+- `meeting_recorder.py` — `MeetingRecorder`: manages Swift audio capture subprocess, writes PCM to WAV, triggers transcription, saves to `~/notes/meetings/`
+- `meeting_transcriber.py` — `MeetingTranscriber`: compresses audio, chunks long recordings into contiguous segments, transcribes via `gpt-4o-transcribe`, concatenates results
+
+### Swift Audio Capture (`swift/omnivo-audio-capture/`)
+- Small Swift CLI using ScreenCaptureKit for system audio + AVAudioEngine for mic
+- Outputs 16-bit mono 48kHz PCM to stdout, status messages to stderr
+- Built binary lives at `resources/bin/omnivo-audio-capture` (gitignored)
+- Build: `./scripts/build-audio-capture.sh`
 
 ### Services (`services/`)
-- `keyboard_service.py` — `KeyboardService`: listens for key events via `pynput`. Uses macOS `NSEvent` to detect actual Caps Lock hardware state. Caps Lock ON = start recording, Caps Lock OFF = stop and process.
+- `keyboard_service.py` — `KeyboardService`: listens for key events via `pynput`. Single Caps Lock = dictation, double-tap Caps Lock (within 600ms) = toggle meeting recording. Uses 400ms processing delay after Caps Lock OFF to detect double-taps.
 - `openai_service.py` — `OpenAIService`: wraps the Whisper transcription API call.
 
 ### Utils (`utils/`)
-- `config.py` — central config: loads `.env`, defines audio params (44100 Hz mono) and Whisper model name
-- `audio_utils.py` — click sound playback (from `resources/sounds/click.wav` with synthetic fallback) and WAV file saving
+- `config.py` — central config: loads `.env`, defines audio params, meeting recording constants (`MEETING_NOTES_PATH`, `MEETING_TEST_MODE`, `TRANSCRIBE_MODEL`, chunking params)
+- `audio_utils.py` — click sound playback and WAV file saving
 
 ### Control Flow
 
-`OmnivoApp` in `main.py` is the central controller. `KeyboardService` holds a reference to it and calls `start_recording()` and `stop_recording_and_process()` directly. The app runs a keyboard listener on a daemon thread while the main thread sleeps.
+`OmnivoApp` in `main.py` is the central controller. `KeyboardService` detects single-tap (dictation) and double-tap (meeting) Caps Lock events. Dictation is instant; meeting transcription runs in a background thread.
+
+## Key Config (`utils/config.py`)
+
+- `MEETING_NOTES_PATH` — output directory (default: `~/notes/meetings`)
+- `MEETING_TEST_MODE` — when `True`, saves raw `.wav` alongside `.md` for reprocessing
+- `TRANSCRIBE_MODEL` — `gpt-4o-transcribe` for meeting transcription
 
 ## Key Dependencies
 
 - `pynput` + `pyobjc` (AppKit) for keyboard/Caps Lock detection — macOS only
-- `sounddevice` + `numpy` for audio capture
-- `openai` SDK for Whisper transcription
+- `sounddevice` + `numpy` for mic audio capture (dictation)
+- `openai` SDK for transcription
+- `pydub` + `ffmpeg` for audio compression and chunking (meetings)
 - `rich` for console formatting
 
 ## Platform
 
-macOS only — relies on `NSEvent.modifierFlags()` for Caps Lock state and Cmd+V for pasting. Requires macOS permissions for microphone and accessibility.
+macOS 14+ — relies on `NSEvent.modifierFlags()` for Caps Lock state, Cmd+V for pasting, ScreenCaptureKit for system audio capture. Requires macOS permissions for microphone, accessibility, and screen recording.

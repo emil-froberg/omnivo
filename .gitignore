@@ -29,3 +29,4 @@ var/
 *.swp
 *.swo
 logs/
+resources/bin/

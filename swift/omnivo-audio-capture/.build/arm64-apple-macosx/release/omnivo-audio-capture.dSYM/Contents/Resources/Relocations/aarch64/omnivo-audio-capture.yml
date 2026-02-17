@@ -1,0 +1,60 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/.build/arm64-apple-macosx/release/omnivo-audio-capture'
+relocations:
+  - { offset: 0x110B12, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture10sampleRateSdvp', symObjAddr: 0x11160, symBinAddr: 0x10000C8C0, symSize: 0x0 }
+  - { offset: 0x110B20, size: 0x8, addend: 0x0, symName: _omnivo_audio_capture_main, symObjAddr: 0x0, symBinAddr: 0x100003D3C, symSize: 0xF4 }
+  - { offset: 0x110B3E, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0xF4, symBinAddr: 0x100003E30, symSize: 0x40 }
+  - { offset: 0x110F9B, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_captureyyYacfU_', symObjAddr: 0x134, symBinAddr: 0x100003E70, symSize: 0x80 }
+  - { offset: 0x11101F, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_captureyyYacfU_TQ0_', symObjAddr: 0x1B4, symBinAddr: 0x100003EF0, symSize: 0x64 }
+  - { offset: 0x1110A3, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_captureyyYacfU_TY1_', symObjAddr: 0x218, symBinAddr: 0x100003F54, symSize: 0x1C }
+  - { offset: 0x1110DE, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_captureyyYacfU_TY2_', symObjAddr: 0x234, symBinAddr: 0x100003F70, symSize: 0x15C }
+  - { offset: 0x111199, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_captureyyYacfU_TA', symObjAddr: 0x3B4, symBinAddr: 0x1000040F0, symSize: 0x44 }
+  - { offset: 0x1111C2, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKF', symObjAddr: 0x3F8, symBinAddr: 0x100004134, symSize: 0x60 }
+  - { offset: 0x1111F3, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY0_', symObjAddr: 0x458, symBinAddr: 0x100004194, symSize: 0xE8 }
+  - { offset: 0x11122D, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTQ1_', symObjAddr: 0x540, symBinAddr: 0x10000427C, symSize: 0xA4 }
+  - { offset: 0x11135C, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY2_', symObjAddr: 0x5E4, symBinAddr: 0x100004320, symSize: 0x948 }
+  - { offset: 0x1116CF, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTQ3_', symObjAddr: 0xF2C, symBinAddr: 0x100004C68, symSize: 0xA4 }
+  - { offset: 0x111832, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY4_', symObjAddr: 0xFD0, symBinAddr: 0x100004D0C, symSize: 0x300 }
+  - { offset: 0x1119B9, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTQ5_', symObjAddr: 0x12D0, symBinAddr: 0x10000500C, symSize: 0x98 }
+  - { offset: 0x111AC1, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY6_', symObjAddr: 0x1368, symBinAddr: 0x1000050A4, symSize: 0x11C }
+  - { offset: 0x111BF6, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTQ7_', symObjAddr: 0x1484, symBinAddr: 0x1000051C0, symSize: 0x88 }
+  - { offset: 0x111D0F, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY8_', symObjAddr: 0x150C, symBinAddr: 0x100005248, symSize: 0xA0 }
+  - { offset: 0x111E06, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY9_', symObjAddr: 0x15AC, symBinAddr: 0x1000052E8, symSize: 0x68 }
+  - { offset: 0x111EFD, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFTY10_', symObjAddr: 0x1614, symBinAddr: 0x100005350, symSize: 0xB4 }
+  - { offset: 0x111FC4, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateCfETo', symObjAddr: 0x19B4, symBinAddr: 0x1000056F0, symSize: 0x10 }
+  - { offset: 0x111FF3, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateCMa', symObjAddr: 0x19C4, symBinAddr: 0x100005700, symSize: 0x20 }
+  - { offset: 0x11201D, size: 0x8, addend: 0x0, symName: '_$sSo18SCShareableContentCSgSo7NSErrorCSgIeyByy_ABTz_', symObjAddr: 0x19E4, symBinAddr: 0x100005720, symSize: 0x94 }
+  - { offset: 0x1120A7, size: 0x8, addend: 0x0, symName: '_$sSo7NSErrorCSgIeyBy_ytTz_', symObjAddr: 0x1A78, symBinAddr: 0x1000057B4, symSize: 0x78 }
+  - { offset: 0x1121B5, size: 0x8, addend: 0x0, symName: '_$sIeg_IeyB_TR', symObjAddr: 0x21EC, symBinAddr: 0x100005F28, symSize: 0x2C }
+  - { offset: 0x1121D4, size: 0x8, addend: 0x0, symName: '_$sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5', symObjAddr: 0x22C4, symBinAddr: 0x100006000, symSize: 0x64 }
+  - { offset: 0x11220E, size: 0x8, addend: 0x0, symName: '_$sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TQ0_', symObjAddr: 0x2328, symBinAddr: 0x100006064, symSize: 0x4C }
+  - { offset: 0x11228A, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV06InlineB0VyAESWcfCTf4nd_n', symObjAddr: 0x2374, symBinAddr: 0x1000060B0, symSize: 0xC0 }
+  - { offset: 0x112300, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV10LargeSliceVyAESWcfCTf4nd_n', symObjAddr: 0x2434, symBinAddr: 0x100006170, symSize: 0x78 }
+  - { offset: 0x11232D, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV11InlineSliceVyAESWcfCTf4nd_n', symObjAddr: 0x24AC, symBinAddr: 0x1000061E8, symSize: 0x80 }
+  - { offset: 0x1123A3, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOyAESWcfCTf4nd_n', symObjAddr: 0x252C, symBinAddr: 0x100006268, symSize: 0x64 }
+  - { offset: 0x1123BF, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOyAESWcfCTf4nd_n', symObjAddr: 0x252C, symBinAddr: 0x100006268, symSize: 0x64 }
+  - { offset: 0x1124F1, size: 0x8, addend: 0x0, symName: '_$sS2SSysWl', symObjAddr: 0x2C1C, symBinAddr: 0x100006958, symSize: 0x44 }
+  - { offset: 0x112505, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataVSgWOe', symObjAddr: 0x2C60, symBinAddr: 0x10000699C, symSize: 0x14 }
+  - { offset: 0x112519, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOe', symObjAddr: 0x2C74, symBinAddr: 0x1000069B0, symSize: 0x44 }
+  - { offset: 0x11252D, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_1, symObjAddr: 0x2CB8, symBinAddr: 0x1000069F4, symSize: 0x24 }
+  - { offset: 0x112541, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_1, symObjAddr: 0x2CDC, symBinAddr: 0x100006A18, symSize: 0x20 }
+  - { offset: 0x112555, size: 0x8, addend: 0x0, symName: '_$sScPSgWOh', symObjAddr: 0x2CFC, symBinAddr: 0x100006A38, symSize: 0x40 }
+  - { offset: 0x112570, size: 0x8, addend: 0x0, symName: '_$sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TA', symObjAddr: 0x2D60, symBinAddr: 0x100006A9C, symSize: 0x70 }
+  - { offset: 0x1125A0, size: 0x8, addend: 0x0, symName: '_$sxIeAgHr_xs5Error_pIegHrzo_s8SendableRzs5NeverORs_r0_lTRyt_Tg5TATQ0_', symObjAddr: 0x2DD0, symBinAddr: 0x100006B0C, symSize: 0x48 }
+  - { offset: 0x1125F1, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledNameAbstract, symObjAddr: 0x2E18, symBinAddr: 0x100006B54, symSize: 0x44 }
+  - { offset: 0x112605, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFyScCyyts5NeverOGXEfU_TA', symObjAddr: 0x2E94, symBinAddr: 0x100006BD0, symSize: 0x8 }
+  - { offset: 0x112619, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFyScCyyts5NeverOGXEfU_yycfU_TA', symObjAddr: 0x2F14, symBinAddr: 0x100006C50, symSize: 0x34 }
+  - { offset: 0x11262D, size: 0x8, addend: 0x0, symName: _block_copy_helper, symObjAddr: 0x2F48, symBinAddr: 0x100006C84, symSize: 0x10 }
+  - { offset: 0x112641, size: 0x8, addend: 0x0, symName: _block_destroy_helper, symObjAddr: 0x2F58, symBinAddr: 0x100006C94, symSize: 0x8 }
+  - { offset: 0x11265C, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFyScCyyts5NeverOGXEfU_yycfU_yyYacfU_TA', symObjAddr: 0x3060, symBinAddr: 0x100006D9C, symSize: 0x80 }
+  - { offset: 0x1126CB, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture3runyyYaKFyScCyyts5NeverOGXEfU_yycfU_yyYacfU_TATQ0_', symObjAddr: 0x30E0, symBinAddr: 0x100006E1C, symSize: 0x48 }
+  - { offset: 0x112BF1, size: 0x8, addend: 0x0, symName: '_$sSo18OS_dispatch_sourceP8DispatchE15setEventHandler3qos5flags7handleryAC0D3QoSV_AC0D13WorkItemFlagsVyyXBSgtFfA0_', symObjAddr: 0x2218, symBinAddr: 0x100005F54, symSize: 0xAC }
+  - { offset: 0x112C64, size: 0x8, addend: 0x0, symName: '_$sScTss5NeverORs_rlE8priority9operationScTyxABGScPSg_xyYaYAcntcfCyt_Tgm5', symObjAddr: 0x16C8, symBinAddr: 0x100005404, symSize: 0x144 }
+  - { offset: 0x112D3D, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateC6stream_21didOutputSampleBuffer2ofySo8SCStreamC_So08CMSampleK3RefaSo0mI4TypeVtFTo', symObjAddr: 0x180C, symBinAddr: 0x100005548, symSize: 0x78 }
+  - { offset: 0x112D86, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateC6stream_16didStopWithErrorySo8SCStreamC_s0K0_ptFTo', symObjAddr: 0x1884, symBinAddr: 0x1000055C0, symSize: 0x68 }
+  - { offset: 0x112DC4, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateCACycfcTo', symObjAddr: 0x18EC, symBinAddr: 0x100005628, symSize: 0x98 }
+  - { offset: 0x112DF1, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateCfD', symObjAddr: 0x1984, symBinAddr: 0x1000056C0, symSize: 0x30 }
+  - { offset: 0x112F3C, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateC6stream_21didOutputSampleBuffer2ofySo8SCStreamC_So08CMSampleK3RefaSo0mI4TypeVtFTf4dnnn_n', symObjAddr: 0x2590, symBinAddr: 0x1000062CC, symSize: 0x4FC }
+  - { offset: 0x1133A2, size: 0x8, addend: 0x0, symName: '_$s20omnivo_audio_capture20AudioCaptureDelegateC6stream_16didStopWithErrorySo8SCStreamC_s0K0_ptFTf4dnd_n', symObjAddr: 0x2A8C, symBinAddr: 0x1000067C8, symSize: 0x190 }
+...

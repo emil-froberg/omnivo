@@ -1,0 +1,6 @@
+version: "Apple Swift version 6.0.3 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)"
+options: "611d4514e34982e85151a6834baf3518960ef480660ee3f0196007b5d93e4fc8"
+build_start_time: [1771338999, 264318000]
+build_end_time: [1771339000, 274937000]
+inputs:
+  "/Users/emilfroberg/omnivo/swift/omnivo-audio-capture/Sources/main.swift": [1771338991, 125095403]

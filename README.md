@@ -1,4 +1,4 @@
-# omnivo
+# omnivo - use caps-lock for dictation and calling LLMs
 
 omnivo is a voice assistant tool designed to enhance productivity through voice commands, intelligent text generation, and context-aware interactions. This simplified console-based application allows you to dictate and process text in multiple modes.
 

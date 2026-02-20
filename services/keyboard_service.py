@@ -104,6 +104,7 @@ class KeyboardService:
                     self.caps_lock_active = False
 
                     if self.app_controller.is_recording:
+                        self.app_controller.is_recording = False
                         self.app_controller.recorder.stop_recording()
 
                         self._processing_timer = threading.Timer(

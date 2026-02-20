@@ -14,6 +14,7 @@ import argparse
 import os
 import subprocess
 import sys
+import time
 
 from services.launchd import (
     DATA_DIR,
@@ -85,6 +86,7 @@ def cmd_restart():
     if is_loaded():
         uninstall()
         print("Omnivo daemon stopped.")
+        time.sleep(1)  # launchd needs a moment between bootout and bootstrap
 
     snapshot_env()
     install()

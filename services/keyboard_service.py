@@ -66,31 +66,25 @@ class KeyboardService:
                 return
 
             if key == keyboard.Key.caps_lock:
-                now = time.time()
+                # NOTE: Double-tap meeting recording is disabled for now.
+                # The meeting recording feature needs debugging before re-enabling.
+                # To re-enable, uncomment the double-tap block below and restore
+                # the PROCESSING_DELAY on dictation stop.
 
-                # Check for double-tap FIRST (two raw presses within window)
-                if (now - self._last_caps_press_time) < DOUBLE_TAP_WINDOW:
-                    # Double-tap detected!
-                    self._last_caps_press_time = 0  # Reset to avoid triple-tap
-                    self._cancel_processing_timer()
+                # # Check for double-tap FIRST (two raw presses within window)
+                # now = time.time()
+                # if (now - self._last_caps_press_time) < DOUBLE_TAP_WINDOW:
+                #     self._last_caps_press_time = 0
+                #     self._cancel_processing_timer()
+                #     if self.app_controller.is_recording:
+                #         self.app_controller.recorder.stop_recording()
+                #         self.app_controller.is_recording = False
+                #     time.sleep(0.01)
+                #     self.caps_lock_active = self.is_caps_lock_on()
+                #     self._toggle_meeting_recording()
+                #     return
+                # self._last_caps_press_time = now
 
-                    # Cancel any active dictation
-                    if self.app_controller.is_recording:
-                        self.app_controller.recorder.stop_recording()
-                        self.app_controller.is_recording = False
-
-                    # Sync state with actual hardware
-                    time.sleep(0.01)
-                    self.caps_lock_active = self.is_caps_lock_on()
-
-                    # Toggle meeting recording
-                    self._toggle_meeting_recording()
-                    return
-
-                # Not a double-tap — record this press time
-                self._last_caps_press_time = now
-
-                # Now check actual state for dictation
                 time.sleep(0.01)
                 actual_state = self.is_caps_lock_on()
 
@@ -99,19 +93,14 @@ class KeyboardService:
                     self.caps_lock_active = True
                     self.app_controller.start_recording()
 
-                # Caps Lock turned OFF → stop dictation, delay processing
+                # Caps Lock turned OFF → stop dictation and process immediately
                 elif not actual_state and self.caps_lock_active:
                     self.caps_lock_active = False
 
                     if self.app_controller.is_recording:
                         self.app_controller.is_recording = False
                         self.app_controller.recorder.stop_recording()
-
-                        self._processing_timer = threading.Timer(
-                            PROCESSING_DELAY,
-                            self._delayed_process_dictation,
-                        )
-                        self._processing_timer.start()
+                        self._delayed_process_dictation()
 
         except Exception as e:
             console.print(f"[bold red]Error on key press:[/bold red] {e}")

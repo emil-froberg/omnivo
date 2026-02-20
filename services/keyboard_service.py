@@ -3,6 +3,7 @@ import threading
 import platform
 from pynput import keyboard
 from rich.console import Console
+from utils.audio_utils import play_clear_sound
 
 console = Console()
 
@@ -56,6 +57,13 @@ class KeyboardService:
     def on_press(self, key):
         try:
             self.current_keys.add(key)
+
+            if key == keyboard.Key.esc:
+                if self.app_controller.is_recording:
+                    self.app_controller.recorder.clear_buffer()
+                    play_clear_sound()
+                    console.print("[yellow]Buffer cleared — continue speaking[/yellow]")
+                return
 
             if key == keyboard.Key.caps_lock:
                 now = time.time()

@@ -52,6 +52,10 @@ class AudioRecorder:
         print("Recording started...")
         return self.stream
     
+    def clear_buffer(self):
+        """Discard all recorded audio frames. Recording continues."""
+        self.recorded_frames = []
+
     def stop_recording(self):
         """
         Stop recording audio.

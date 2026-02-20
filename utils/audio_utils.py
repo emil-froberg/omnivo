@@ -47,6 +47,26 @@ def play_click_sound():
         # Play the sound
         play_obj = sa.play_buffer(audio, 1, 2, sample_rate)
 
+def play_clear_sound():
+    """Play a short descending tone to indicate buffer was cleared."""
+    sample_rate = SAMPLE_RATE
+    duration = 0.15
+    t = np.linspace(0, duration, int(sample_rate * duration), False)
+
+    # Descending frequency sweep (800 -> 400 Hz) for an "undo" feel
+    freq = np.linspace(800, 400, len(t))
+    sine_wave = np.sin(np.cumsum(2 * np.pi * freq / sample_rate)) * 0.5
+
+    # Fast decay envelope
+    envelope = np.exp(-20 * t)
+    audio = sine_wave * envelope
+
+    # Convert to 16-bit PCM and play
+    audio = audio * 32767 / np.max(np.abs(audio))
+    audio = audio.astype(np.int16)
+    sa.play_buffer(audio, 1, 2, sample_rate)
+
+
 def save_audio_to_file(recorded_frames):
     """
     Save recorded audio frames to a temporary WAV file.

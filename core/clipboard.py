@@ -40,5 +40,5 @@ class ClipboardManager:
         Args:
             text (str): Text to copy and paste
         """
-        self.copy_to_clipboard(text)
+        self.copy_to_clipboard(text + " ")
         self.paste_from_clipboard() 

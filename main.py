@@ -33,31 +33,36 @@ class OmnivoApp:
         self.keyboard_service = KeyboardService(self)
 
     def start(self):
-        console.clear()
+        is_tty = sys.stdout.isatty()
 
-        console.print(Panel.fit(
-            "[bold cyan]Omnivo Voice Assistant[/bold cyan]\n"
-            "[italic]Enhance productivity through voice commands[/italic]",
-            border_style="cyan"
-        ))
+        if is_tty:
+            console.clear()
+            console.print(Panel.fit(
+                "[bold cyan]Omnivo Voice Assistant[/bold cyan]\n"
+                "[italic]Enhance productivity through voice commands[/italic]",
+                border_style="cyan"
+            ))
 
-        table = Table(show_header=False, box=None, padding=(0, 2))
-        table.add_column("Action", style="dim")
-        table.add_column("Description", style="green")
+            table = Table(show_header=False, box=None, padding=(0, 2))
+            table.add_column("Action", style="dim")
+            table.add_column("Description", style="green")
 
-        table.add_row("[bold]Turn ON Caps Lock[/bold]", "Start dictation")
-        table.add_row("[bold]Turn OFF Caps Lock[/bold]", "Stop dictation and paste result")
-        table.add_row("[bold]Double-tap Caps Lock[/bold]", "Toggle meeting recording")
-        table.add_row(None, "[dim]Meeting transcriptions saved to ~/notes/meetings/[/dim]")
+            table.add_row("[bold]Turn ON Caps Lock[/bold]", "Start dictation")
+            table.add_row("[bold]Turn OFF Caps Lock[/bold]", "Stop dictation and paste result")
+            table.add_row("[bold]Double-tap Caps Lock[/bold]", "Toggle meeting recording")
+            table.add_row(None, "[dim]Meeting transcriptions saved to ~/notes/meetings/[/dim]")
 
-        console.print(Panel(table, title="[bold]Usage Instructions[/bold]", border_style="blue"))
+            console.print(Panel(table, title="[bold]Usage Instructions[/bold]", border_style="blue"))
 
         keyboard_thread = threading.Thread(
             target=self.keyboard_service.start_listening, daemon=True
         )
         keyboard_thread.start()
 
-        console.print("[dim]Omnivo is ready and waiting for commands...[/dim]")
+        if is_tty:
+            console.print("[dim]Omnivo is ready and waiting for commands...[/dim]")
+        else:
+            console.print("Omnivo daemon started and listening for commands.")
 
     def start_recording(self):
         """Start dictation recording."""

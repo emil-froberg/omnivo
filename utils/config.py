@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env file
 load_dotenv()
+# Also load from ~/.omnivo/.env (daemon mode fallback — launchctl has no shell env)
+load_dotenv(os.path.expanduser("~/.omnivo/.env"))
 
 # Audio recording parameters
 SAMPLE_RATE = 44100  # Sample rate in Hz

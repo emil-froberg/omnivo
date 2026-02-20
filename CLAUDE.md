@@ -10,9 +10,22 @@ Omnivo is a macOS voice assistant with two modes:
 
 ## Running the Application
 
+### Interactive (foreground)
 ```bash
 python main.py
 ```
+
+### As a background daemon (LaunchAgent)
+```bash
+omnivo start     # Install & start daemon (auto-starts on login)
+omnivo stop      # Stop daemon & remove LaunchAgent
+omnivo restart   # Stop + start
+omnivo status    # Show running state / PID
+omnivo log       # Tail daemon logs (Ctrl+C to stop)
+omnivo help      # Show available commands
+```
+
+The `omnivo` command is a shell wrapper at `bin/omnivo`, symlinked to `/usr/local/bin/omnivo`. The daemon snapshots `OPENAI_API_KEY` to `~/.omnivo/.env` on start, logs to `~/.omnivo/daemon.{stdout,stderr}.log`, and auto-restarts on crash.
 
 Requires `OPENAI_API_KEY` in `.env` file (copy from `.env.example`).
 
@@ -63,6 +76,11 @@ flake8 .         # Linting
 ### Services (`services/`)
 - `keyboard_service.py` — `KeyboardService`: listens for key events via `pynput`. Single Caps Lock = dictation, double-tap Caps Lock (within 600ms) = toggle meeting recording. Uses 400ms processing delay after Caps Lock OFF to detect double-taps.
 - `openai_service.py` — `OpenAIService`: wraps the Whisper transcription API call.
+- `launchd.py` — LaunchAgent lifecycle: generates plist, `install()`/`uninstall()`/`is_loaded()`/`get_status()` for the background daemon.
+
+### CLI (`bin/omnivo` + `cli.py`)
+- `bin/omnivo` — Shell wrapper that resolves symlinks to find the project root, then runs `cli.py`. Symlinked to `/usr/local/bin/omnivo` for global access.
+- `cli.py` — `argparse`-based CLI for `start`/`stop`/`restart`/`status`/`log`/`help` commands. Snapshots API key to `~/.omnivo/.env` on start, manages LaunchAgent via `services/launchd.py`.
 
 ### Utils (`utils/`)
 - `config.py` — central config: loads `.env`, defines audio params, meeting recording constants (`MEETING_NOTES_PATH`, `MEETING_TEST_MODE`, `TRANSCRIBE_MODEL`, chunking params)

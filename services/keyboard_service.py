@@ -54,6 +54,37 @@ class KeyboardService:
             self._processing_timer.cancel()
             self._processing_timer = None
 
+    def _is_caps_lock_key(self, key):
+        """Check if key is Caps Lock (handles both built-in and Bluetooth keyboards).
+
+        Built-in keyboards send Key.caps_lock (vk=57).
+        Bluetooth keyboards may send KeyCode with vk=255 instead.
+        """
+        if key == keyboard.Key.caps_lock:
+            return True
+        if isinstance(key, keyboard.KeyCode) and key.vk == 255:
+            return True
+        return False
+
+    def _handle_caps_lock_toggle(self):
+        """Handle caps lock state change for dictation start/stop."""
+        time.sleep(0.01)
+        actual_state = self.is_caps_lock_on()
+
+        # Caps Lock turned ON → start dictation
+        if actual_state and not self.caps_lock_active:
+            self.caps_lock_active = True
+            self.app_controller.start_recording()
+
+        # Caps Lock turned OFF → stop dictation and process immediately
+        elif not actual_state and self.caps_lock_active:
+            self.caps_lock_active = False
+
+            if self.app_controller.is_recording:
+                self.app_controller.is_recording = False
+                self.app_controller.recorder.stop_recording()
+                self._delayed_process_dictation()
+
     def on_press(self, key):
         try:
             self.current_keys.add(key)
@@ -65,42 +96,8 @@ class KeyboardService:
                     console.print("[yellow]Buffer cleared — continue speaking[/yellow]")
                 return
 
-            if key == keyboard.Key.caps_lock:
-                # NOTE: Double-tap meeting recording is disabled for now.
-                # The meeting recording feature needs debugging before re-enabling.
-                # To re-enable, uncomment the double-tap block below and restore
-                # the PROCESSING_DELAY on dictation stop.
-
-                # # Check for double-tap FIRST (two raw presses within window)
-                # now = time.time()
-                # if (now - self._last_caps_press_time) < DOUBLE_TAP_WINDOW:
-                #     self._last_caps_press_time = 0
-                #     self._cancel_processing_timer()
-                #     if self.app_controller.is_recording:
-                #         self.app_controller.recorder.stop_recording()
-                #         self.app_controller.is_recording = False
-                #     time.sleep(0.01)
-                #     self.caps_lock_active = self.is_caps_lock_on()
-                #     self._toggle_meeting_recording()
-                #     return
-                # self._last_caps_press_time = now
-
-                time.sleep(0.01)
-                actual_state = self.is_caps_lock_on()
-
-                # Caps Lock turned ON → start dictation
-                if actual_state and not self.caps_lock_active:
-                    self.caps_lock_active = True
-                    self.app_controller.start_recording()
-
-                # Caps Lock turned OFF → stop dictation and process immediately
-                elif not actual_state and self.caps_lock_active:
-                    self.caps_lock_active = False
-
-                    if self.app_controller.is_recording:
-                        self.app_controller.is_recording = False
-                        self.app_controller.recorder.stop_recording()
-                        self._delayed_process_dictation()
+            if self._is_caps_lock_key(key):
+                self._handle_caps_lock_toggle()
 
         except Exception as e:
             console.print(f"[bold red]Error on key press:[/bold red] {e}")
@@ -124,6 +121,14 @@ class KeyboardService:
     def on_release(self, key):
         try:
             self.current_keys.discard(key)
+
+            # Bluetooth keyboards only fire RELEASE for Caps Lock (no PRESS event),
+            # so we handle the toggle here as well. The state check in
+            # _handle_caps_lock_toggle prevents double-triggering for built-in
+            # keyboards that fire both PRESS and RELEASE.
+            if self._is_caps_lock_key(key):
+                self._handle_caps_lock_toggle()
+
         except Exception as e:
             console.print(f"[bold red]Error on key release:[/bold red] {e}")
         return True

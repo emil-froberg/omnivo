@@ -17,15 +17,19 @@ python main.py
 
 ### As a background daemon (LaunchAgent)
 ```bash
-omnivo start     # Install & start daemon (auto-starts on login)
-omnivo stop      # Stop daemon & remove LaunchAgent
-omnivo restart   # Stop + start
-omnivo status    # Show running state / PID
-omnivo log       # Tail daemon logs (Ctrl+C to stop)
-omnivo help      # Show available commands
+omnivo start                          # Install & start daemon (auto-starts on login)
+omnivo stop                           # Stop daemon & remove LaunchAgent
+omnivo restart                        # Stop + start
+omnivo status                         # Show running state / PID / model / punctuation
+omnivo log                            # Tail daemon logs (Ctrl+C to stop)
+omnivo model [whisper|transcribe]     # Show or set the dictation transcription model
+omnivo punctuation [on|off]           # Show or set the punctuation prompt mode
+omnivo help                           # Show available commands
 ```
 
 The `omnivo` command is a shell wrapper at `bin/omnivo`, symlinked to `/usr/local/bin/omnivo`. The daemon snapshots `OPENAI_API_KEY` to `~/.omnivo/.env` on start, logs to `~/.omnivo/daemon.{stdout,stderr}.log`, and auto-restarts on crash.
+
+**CLI settings** (`~/.omnivo/state.json`): `omnivo model` and `omnivo punctuation` write to this file. The daemon reads it on every dictation, so toggles take effect instantly without a restart. Defaults: `model=whisper`, `punctuation=off`. Use `omnivo punctuation on` plus `omnivo model transcribe` to get punctuated dictation via `gpt-4o-transcribe`.
 
 Requires `OPENAI_API_KEY` in `.env` file (copy from `.env.example`).
 
